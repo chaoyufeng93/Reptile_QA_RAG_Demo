@@ -7,7 +7,7 @@ from langchain_community.retrievers import BM25Retriever
 from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings
 from data_prep import load_doc
-from settings import RAGConfig
+from settings import ragconfig
 
 load_dotenv()
 if "OPENAI_API_KEY" not in os.environ:
@@ -33,9 +33,9 @@ def create_vec_store(
     doc = load_doc()
     split_doc = split_docs(
         doc = doc,
-        separators = RAGConfig.splitter.separators,
-        chunk_size = RAGConfig.splitter.chunk_size,
-        overlap = RAGConfig.splitter.overlap
+        separators = ragconfig.splitter.separators,
+        chunk_size = ragconfig.splitter.chunk_size,
+        overlap = ragconfig.splitter.overlap
     )
     embed_model = OpenAIEmbeddings(
         model = embedding
@@ -57,8 +57,8 @@ def load_retriever(
         allow_dangerous_deserialization=True
     )
     vec_retr = vec_store.as_retriever(
-        search_type = RAGConfig.retriever.search_type,
-        search_kwargs = RAGConfig.retriever.search_kwargs
+        search_type = ragconfig.retriever.search_type,
+        search_kwargs = ragconfig.retriever.search_kwargs
     )
     # BM25
     doc = load_doc()
@@ -66,7 +66,7 @@ def load_retriever(
         doc = doc
     )
     bm_retr = BM25Retriever.from_documents(split_doc)
-    bm_retr.k = RAGConfig.bm25.k
+    bm_retr.k = ragconfig.bm25.k
     return vec_retr, bm_retr
 
 if __name__ == "__main__":
@@ -75,20 +75,20 @@ if __name__ == "__main__":
 
     if create:
         vec_store = create_vec_store(
-            embedding=RAGConfig.embedding.model
+            embedding=ragconfig.embedding.model
         )
         vec_store.save_local("./sources/faiss_index")
 
     else:
         vec_store = FAISS.load_local(
             "./sources/faiss_index",
-            OpenAIEmbeddings(model = RAGConfig.embedding.model),
+            OpenAIEmbeddings(model = ragconfig.embedding.model),
             allow_dangerous_deserialization=True
         )
 
         retriever = vec_store.as_retriever(
-            search_type = RAGConfig.retriever.search_type,
-            search_kwargs = RAGConfig.retriever.search_kwargs
+            search_type = ragconfig.retriever.search_type,
+            search_kwargs = ragconfig.retriever.search_kwargs
         )
         res = retriever.invoke(query)
         for i in range(len(res)):

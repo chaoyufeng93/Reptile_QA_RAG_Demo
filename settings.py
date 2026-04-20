@@ -2,8 +2,8 @@ from dataclasses import dataclass, field
 
 @dataclass
 class SplitterConfig:
-    separators: list[str] = field(default_factory=lambda: ["\n\n", "\n", ".", " ", ""]),
-    chunk_size: int = 1200,
+    separators: list[str] = field(default_factory=lambda: ["\n\n", "\n", ".", " ", ""])
+    chunk_size: int = 1200
     overlap: int = 100
 
 @dataclass
@@ -12,11 +12,14 @@ class EmbeddingConfig:
 
 @dataclass
 class RetrieverConfig:
-    search_type: str = "mmr",
-    search_kwargs: dict = {
-        "k": 20,
-        "lambda_mult": 0.5
-    }
+    search_type: str = "mmr"
+    search_kwargs: dict = field(
+        default_factory = lambda: {
+                "k": 20,
+                "lambda_mult": 0.5
+            }
+    )
+    
 
 @dataclass
 class BM25Config:
@@ -44,6 +47,7 @@ class LLMConfig:
     rewrite_node: str = "gpt-4o"
     ans_node: str = "gpt-5"
 
+@dataclass
 class GraphConfig:
     rerank: RerankConfig = field(default_factory=RerankConfig)
     removedup: RemoveDupConfig = field(default_factory=RemoveDupConfig)
