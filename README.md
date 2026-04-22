@@ -188,15 +188,6 @@ INPUT = "My hognose snake has been hiding for over a week. What could be the rea
 
 ---
 
-## 🧩 Future Direction
-
-Can be extended to:
-- Financial RAG systems
-- News-driven agents
-- Regime detection pipelines
-
----
-
 ## 📄 Source Files
 
 Generated from:
