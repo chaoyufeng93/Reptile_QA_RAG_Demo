@@ -63,7 +63,10 @@ def load_retriever(
     # BM25
     doc = load_doc()
     split_doc = split_docs(
-        doc = doc
+        doc = doc,
+        separators = ragconfig.splitter.separators,
+        chunk_size = ragconfig.splitter.chunk_size,
+        overlap = ragconfig.splitter.overlap
     )
     bm_retr = BM25Retriever.from_documents(split_doc)
     bm_retr.k = ragconfig.bm25.k

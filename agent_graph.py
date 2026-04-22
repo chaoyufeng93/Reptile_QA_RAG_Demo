@@ -190,12 +190,12 @@ def ans_node(
 builder = StateGraph(
     Overall_State,
 )
-builder.add_node("translate", rewrite_node)
+builder.add_node("rewrite", rewrite_node)
 builder.add_node("retriever", retr_node)
 builder.add_node("answer", ans_node)
 
-builder.add_edge(START, "translate")
-builder.add_edge("translate", "retriever")
+builder.add_edge(START, "rewrite")
+builder.add_edge("rewrite", "retriever")
 builder.add_edge("retriever", "answer")
 builder.add_edge("answer", END)
 
