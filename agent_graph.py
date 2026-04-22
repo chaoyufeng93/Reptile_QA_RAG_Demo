@@ -23,7 +23,7 @@ reranker = CrossEncoder(graphconfig.rerank.model)
 def rerank_docs(
     docs, 
     query: str,
-    topk: int = 5
+    topk: int
 ):
     pairs = [(query, doc.page_content) for doc in docs]
     scores = reranker.predict(pairs)
@@ -38,8 +38,8 @@ def rerank_docs(
 def remov_dup(
     doc1: list,
     doc2: list,
-    method: str = "overlap",
-    threshold: float = 0.8
+    method: str,
+    threshold: float
 ):
     removed_li = []
     if method == "overlap":
@@ -201,7 +201,7 @@ builder.add_edge("answer", END)
 
 if __name__ == "__main__":
 
-    INPUT = "Ackie Monitor的温度湿度要求是怎么样的"
+    INPUT = "我的hognose snake已经躲着一周多了 会是什么原因导致的呢"
 
     graph = builder.compile()
 

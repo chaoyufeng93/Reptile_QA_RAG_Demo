@@ -15,9 +15,9 @@ if "OPENAI_API_KEY" not in os.environ:
 
 def split_docs(
     doc: Document,
-    separators: list = ["\n\n", "\n", ".", " ", ""],
-    chunk_size: int = 1200,
-    overlap: int = 100
+    separators: list,
+    chunk_size: int,
+    overlap: int
 ):
     splitter = RecursiveCharacterTextSplitter(
         separators = separators,
@@ -28,7 +28,7 @@ def split_docs(
     return res
 
 def create_vec_store(
-    embedding: str = "text-embedding-3-small"
+    embedding: str
 ):
     doc = load_doc()
     split_doc = split_docs(
